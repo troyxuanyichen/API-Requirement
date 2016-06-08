@@ -23,6 +23,7 @@ Restful API requirement
 6. modify user's profile
 7. upload picture(avatar)
 8. change pasword
+9. inactive user
 
 以下是用户信息的数据结构: （经过讨论，我们决定username 和 email 之间只保留 email）
 
@@ -36,3 +37,4 @@ Restful API requirement
   avatar: VARCHAR (以url形式返回给ios)  图片数据如何存储请自行决定  
   phone: VARCHAR(20)  
   other: TEXT  
+  active: CHAR(1) default 'a' (when deleted, change to 'i')
