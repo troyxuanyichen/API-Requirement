@@ -117,7 +117,7 @@ __/signup__
 Avatar, gender, other are not required. Other fields are required.	//phone?
 
 
-###API 7: Avatar(POST)
+###API 7: Avatar(PUT)
 __/avatar__  
 The server will upload the profile pic to s3 storage  
 **HttpHeader:**'Authorization': token  
