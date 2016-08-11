@@ -1,139 +1,313 @@
+**API Documentation**
+========================
+Note:  
+Add password in the sigup API.  
+Please delete all the statusCode in all API's.  
+Please watch out for the httpHeader. For example, signup/login will not give you any token in the header.  
+Change "x-access-token" to "authorization".  
+Add deleteAccount and activeAccount api, delete the request body of logout  
+Put profile no longer support upload avatar  
+Change the key in response of 'get avatar' to 'profile'  
+Correct content-type of 'put avatar'  
+Change the method of 'upload avatar' from 'put' to 'post'  
+Post avatar will return the url  
+Add new api 'fast delete' for debug use only  
+Add the 'quick login' api  
+Important: prepend 'JWT ' to the jwt token  
+/password(PUT)
+-------------
+To change the user's password.
 
-
-# API Requirements
-
-##response format
-
-__sample__
-response:
-{
-  "request": {
-    "headers": {
-      "host": "localhost:8081",
-      "connection": "keep-alive",
-      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36",
-      "postman-token": "e1e22fc0-279f-23ba-1b33-5a6018f34201",
-      "cache-control": "no-cache",
-      "authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRyb3ljaGVuMUBidS5lZHUiLCJpYXQiOjE0NjU4NTE2MTAsImV4cCI6MTQ2NTg1NTIxMH0.cGGhW-rnmZCrcv70vqDWGgSYhk7ZyZzwDi_RkQCe9F4",
-      "content-type": "application/json",
-      "accept": "*/*",
-      "accept-encoding": "gzip, deflate, sdch",
-      "accept-language": "en-US,en;q=0.8"
-    },
-    "method": "GET",
-    "url": "/profile",
-    "status": 200,
-    "body": {},
-    "requestTime": "2016-06-13T21:06:12.069Z"
-  },
-  "data": [
-    {
-      "firstName": "xuanyi",
-      "lastName": "chen",
-      "gender": "m",
-      "birthday": "2014-11-22T05:00:00.000Z",
-      "avatar": null,
-      "phone": "6178169142",
-      "other": null
+**HttpHeader:** "authorization": token   
+**Content-Type:** "application/json"  
+**Request Body:**
+   
+	{
+      "oldPwd": "oldPassword",
+      "newPwd: "newPassword"
     }
-  ],
-  "error": {
-    "message": ""
-  },
-  "responseTime": "2016-06-13T21:06:12.070Z"
-}
+    
+**Response Body:**
 
-The response.request.authorization, response.request.body, response.data, response.err.message may be empty depending on HTTP methods and err.
-If an error occures, the response.error.message is sure to be "not null", and the response.status is not 200.
-Success response will not return response.err.message, and the response.status is 200.
-Anything relating to the password is hided in response.
+	response: 
+	{
+		"statusMsg": "..."
+	}
 
-__http_method_and_response_body__
-GET: response.request.body is empty, response.data is the data retrived from the database
-POST: response.request.body is the new data intended to insert into database, response.data is empty
-PUT: response.request.body is the new data intended to update database, response.data is empty
-DELETE: response.request.body is empty, response.data is empty
+/activateaccount(PUT)
+-------------
+To activate user's account  
 
-if error occures, the response.request.body will be the req.body if any, response.data is empty
-
-## Token (included in HTTPHeader.Authorization ) 
-
-_decoded_jwt_sample_
-{
-	"header": {
-		"alg": "HS256",
-  		"typ": "JWT"
-	},
-	"payload: { 
-		"email": 'troychen1@bu.edu', 
-		"iat": "1465433434",
-		"exp": "1465437034" 
-	},
-	"signature":""
-}
-
-The jwt is encoded with HS256. The signature part is generated automatically.
-
-### API 1: Change password
-__/password__    
-**HttpHeader:**'Authorization': token   
-**Content-Type:**'application/json'  
-**Request Body:** oldPwd, newPwd  
-
-
-###API 2: Logout
-__/logout__  
-The server will delete the token from the database  
-**HttpHeader:**'Authorization': token   
-**Content-Type:** "application/json"   
-
-
-###API 3: Forget Password
-__/password__  
-**HttpHeader:**'Authorization': token  
-**Content-Type:** "application/json"   
-
-
-###API 4: Change Profile 
-// avatar might be too large to upload every time?  
-__/profile__  
-Only the following fields can be changed through this method: firstName, lastName, gender, birthday, avatar, phone, other. Password has to be changed in forget password. Email cannot be changed once register is finished.  
-**HttpHeader:**'Authorization': token   
 **Content-Type:** "application/json"  
-**Request Body:** firstName, lastName, gender, birthday, avatar, phone, other  
+**Request Body:**   
 
+	{
+      "email": "asdfgh@gmail.com"
+    }
+    
+**Response Body:** 
 
-###API 5: Login
-__/login__  
-The user will get a token the first time it logs in. When the user reopen the app, the token will be validated first. If it's still valid, the user will be automatically logged in, otherwise, the user will be asked to enter login info again    
+	response:
+	{
+		"statusMsg": "..."
+	}
+
+**Tips:** the user will use the original password to login  
+
+/deleteaccount(PUT)
+-------------
+To inactive user's account and delete all the token belongint to the email  
+
+**HttpHeader:** "authorization": token   
 **Content-Type:** "application/json"  
-**Request Body:** email, password  
+**Request Body:** *null*    
+**Response Body:** 
 
+	response:
+	{
+		"statusMsg": "..."
+	}
 
-###API 6: Sign Up
-__/signup__   
-**Content-Type:** "application/json"  
-**Request Body:** userInfo: {token: '', firstName:'', lastName:'', gender: '', birthday: '', avatar: '', phone: '', other: ''}  
-Avatar, gender, other are not required. Other fields are required.	//phone?
+**Tips:** the account can be activate later  
 
-
-###API 7: Avatar
-__/avatar  
-The server will upload the profile pic to s3 storage  
-**HttpHeader:**'Authorization': token  
+/fastdelete(DELETE)
+-------------
+Fast delete user account and token in debug. Use with care.  
 **Content-Type:** "application/json"   
-**Request Body:** the binary data of the picture  
+**Request Body:**  
 
+	{
+      "email": "asdfgh@gmail.com"
+    }
 
-###API 8: Signout
-The current token will be permanently deleted.
-**HttpHeader:**'Authorization': token  
-**Content-Type:** "application/json"  
+**Response Body:** 
 
+	response:
+	{
+		"statusMsg": "..."
+	}
+**Tips:** delete all profile and token related to the email address.  
 
-###API 9: Get Profile
-Before the user tries to update the profile, this api will provide the information stored in the database for reference.
-**HttpHeader:**'Authorization': token  
+/forgot(PUT)
+-------------
+User forget his/her password.  
 **Content-Type:** "application/json"   
+**Request Body:**  
 
+	{
+      "email": "asdfgh@gmail.com"
+    }
+
+**Response Body:** 
+
+	response:
+	{
+		"statusMsg": "..."
+	}
+**Tips:** send an email with a random generated temporary password to the email address provided.  
+
+/checkidentity(GET)
+-------
+Check if the user is a parent or child
+
+/getchildren(GET)
+-------
+Parent find children
+
+**HttpHeader:** "authorization": token   
+**Content-Type:** "application/json"   
+**Request Body:** *null*    
+**Response Body:** 
+
+	response:
+	{
+		"childrenList": 
+		{
+			"child1@gmail.com",
+			"child2@gmail.com"
+		}
+	}
+**Tips:** Call this api when a parent user login, return the list of children the user is connected to. If no child is connected, an empty childrenList will be returned.  
+
+/logout(DELETE)
+-------
+User logout.  
+
+**HttpHeader:** "authorization": token   
+**Content-Type:** "application/json"   
+**Request Body:** *null*    
+**Response Body:** 
+
+	response:
+	{
+		"statusMsg": "..."
+	}
+**Tips:** App will send you the email in request.body so that server can delete its token. Or, you can just check the token. It's up to you. **However**, if the network is not working right now, app will STILL log out, which means you might not know when the user did log out. But it's not a problem. When this user log in the next time, you should give him another token and replace the previous one.
+
+ 
+
+
+
+/profile(PUT)
+--------
+Update one user's profile excluding the email.  
+ 
+**HttpHeader:** "authorization": token   
+**Content-Type:** "application/json"   
+**Request Body:**  
+
+	  {
+		"firstName": "newFirstName",
+		"lastName: "newLastName",
+		"gender": "f",
+		"birthday": "08/08/2009",
+		"phone": "6178169142",
+		"other": "somethingElse"
+	  }
+**Response Body:**
+
+	response:
+	{
+		"statusMsg": "..."
+	}
+	
+**Tips:** Only the following fields can be changed through this method: firstName, lastName, gender, birthday, phone, other. Password has to be changed in forget password. Email cannot be changed once register is finished.  
+
+
+/profile(GET)
+-------------
+Fetch one user's profile including avatar.  
+
+**HttpHeader:** "authorization": token   
+**Content-Type:** "application/json"   
+**Request Body:** *null*  
+**Response Body:** 
+
+	response:
+	{
+		"firstName": "newFirstName",
+		"lastName: "newLastName",
+		"gender": "f",
+		"avatar" : "https://www.brainco.tech/img.jpg",
+		"birthday": "2014/11/22",
+		"phone": "6178169142",
+		"other": "somethingElse"
+		"statusMsg": "..."
+	  }
+
+/login (POST)
+------------
+User log in. Return token.
+      
+**Content-Type:** "application/json"  
+**Request Body:**  
+
+	{
+      "email": "troychen@bu.edu",
+      "password: "HashedAtLeastSixDigit"
+    }
+**Response Body:**
+
+	response:
+	{
+		"token" : "asjkhdbfkuyawsegbfkasdbflhsd";
+		"statusMsg": "..."
+	}
+**Tips:** The user will get a token the first time it logs in. When the user reopen the app, the token will be validated first. If it's still valid, the user will be immediately logged in, otherwise, the user will be asked to enter login info again. 
+
+
+/signup(POST)
+-------------
+  
+**Content-Type:** "application/json"  
+**Request Body:**  
+
+	{
+		"email" : "asdfgh@gmail.com",
+		"password": "hasedPassword",
+		"firstName": "xuanyi",
+		"lastName: "chen",
+		"gender": "m",
+		"birthday": "2014/11/22",
+		"avatar": "Binary675tuygjhbkyt76dtjcghvgt76riftyvhjbhiyotfuvhb",
+		"phone": "6178169142",
+		"other": "OtherInfo"
+	}
+
+ **Response Body:**
+
+	response:
+	{
+		"statusMsg": "..."
+	}
+**Tips:** Avatar, gender, other are not required. Other fields are required.Other information cannot exceed 150 characters.  
+
+
+/avatar(POST)
+------------
+Update one user's avatar.  
+  
+**HttpHeader:** "authorization": token  
+**Content-Type:** "multipart/form-data"   
+**Request Body:** 
+
+	{
+		"avatar": "Binary675tuygjhb76rudtjcghvgt76riftyvhjbhiyotfuvhb"
+	} 
+**Response Body:**
+
+	response:
+	{
+		"avatar": "https://www.brainco.tech/img.jpg",
+		"statusMsg": "..."
+	}
+**Tips:** The server will receive binary data and upload the picture to s3 storage.
+
+
+/avatar(GET)
+------------
+Fetch one's avatar.  
+**HttpHeader:** "authorization": token  
+**Content-Type:** "application/json"   
+**Request Body:** *null*  
+**Response Body:**
+
+	response: 
+	{
+		"avatar": "https://www.brainco.tech/img.jpg"
+		"statusMsg": "..."
+	}
+
+
+/quicklogin(POST)
+------------
+renew the token for the user  
+**HttpHeader:** "authorization": token  
+**Request Body:** 
+
+	{
+		"token": "asjkhdbfkuyawsegbfkasdbflhsdOld"
+	} 
+**Response Body:**
+
+	response:
+	{
+		"token": "asjkhdbfkuyawsegbfkasdbflhsdNew",
+		"statusMsg": "..."
+	}
+**Tips:** Require token and re-sign a new token
+
+
+
+**Requirements of data:**
+=========================
+**password:** should be at least 6 digits, do not encode;  
+**firstName:** should be less than 100 characters;  
+**lastName:** should be less than 100 characters;  
+**email:** should be a good formatted email, eg, hehechen@bu.edu;  
+**gender:** should be single character, lower case 'm' or 'f';  
+**birthday:** should be like 1991/11/12;  
+**avatar:** should be binary code, max 65,535 bytes;  
+**phone:** should be numbers only, more than 6 digits, max 20 digits;  
+**other:** should be text, max length 65,535 characters  
 
