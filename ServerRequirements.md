@@ -54,7 +54,7 @@ To activate user's account
 
 **Tips:** the user will use the original password to login  
 
-/deleteaccount(PUT)
+/account(PUT)
 -------------
 To inactive user's account and delete all the token belongint to the email  
 
@@ -108,11 +108,11 @@ User forget his/her password.
 
 /checkidentity(GET)
 -------
-Check if the user is a parent or child
+Check if the user is a guardian or trainee
 
-/getchildren(GET)
+/gettrainees(GET)
 -------
-Parent find children
+Guardian find trainees
 
 **HttpHeader:** "authorization": token   
 **Content-Type:** "application/json"   
@@ -121,13 +121,13 @@ Parent find children
 
 	response:
 	{
-		"childrenList": 
+		"traineesList": 
 		{
-			"child1@gmail.com",
-			"child2@gmail.com"
+			"trainee1@gmail.com",
+			"trainee2@gmail.com"
 		}
 	}
-**Tips:** Call this api when a parent user login, return the list of children the user is connected to. If no child is connected, an empty childrenList will be returned.  
+**Tips:** Call this api when a guardian user login, return the list of trainees the user is connected to. If no trainee is connected, an empty traineesList will be returned.  
 
 /logout(DELETE)
 -------
@@ -297,7 +297,35 @@ renew the token for the user
 	}
 **Tips:** Require token and re-sign a new token
 
+/resend(POST)
+------------
+resend the activation email  
+**HttpHeader:** "authorization": token  
+**Request Body:**
 
+	{
+		"email": "troychen3@bu.edu"
+	}
+**Response Body:**
+
+	response:
+	{
+		"statusMsg": "..."
+	}
+**Tips:** This api can only be called when register
+
+
+/verify/:token(POST)
+------------
+activate the user account  
+**Request Parameter:** token  
+**Response Body:**  
+
+	response:
+	{
+		"statusMsg": "..."
+	}
+**Tips:** Require token and re-sign a new token
 
 **Requirements of data:**
 =========================
