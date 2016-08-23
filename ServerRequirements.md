@@ -297,7 +297,7 @@ renew the token for the user
 	}
 **Tips:** Require token and re-sign a new token
 
-/resend(POST)
+/resendemail(GET)
 ------------
 resend the activation email  
 **HttpHeader:** "authorization": token  
@@ -315,7 +315,7 @@ resend the activation email
 **Tips:** This api can only be called when register
 
 
-/verify/:token(POST)
+/verify/:token(GET)
 ------------
 activate the user account  
 **Request Parameter:** token  
