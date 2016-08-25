@@ -14,10 +14,10 @@ Post avatar will return the url
 Add new api 'fast delete' for debug use only  
 Add the 'quick login' api  
 Important: prepend 'JWT ' to the jwt token  
-Add 'user' to all the router that is ralated to user  
+Add 'users' to all the router that is ralated to user  
 Add the 'add relationship' api  
 
-/password(PUT)
+users/password(PUT)
 -------------
 To change the user's password.
 
@@ -37,7 +37,7 @@ To change the user's password.
 		"statusMsg": "..."
 	}
 
-/activateaccount(PUT)
+users/activateaccount(PUT)
 -------------
 To activate user's account  
 
@@ -57,7 +57,7 @@ To activate user's account
 
 **Tips:** the user will use the original password to login  
 
-/account(PUT)
+users/account(PUT)
 -------------
 To inactive user's account and delete all the token belongint to the email  
 
@@ -73,7 +73,7 @@ To inactive user's account and delete all the token belongint to the email
 
 **Tips:** the account can be activate later  
 
-/fastdelete(DELETE)
+users/fastdelete(DELETE)
 -------------
 Fast delete user account and token in debug. Use with care.  
 **Content-Type:** "application/json"   
@@ -91,7 +91,7 @@ Fast delete user account and token in debug. Use with care.
 	}
 **Tips:** delete all profile and token related to the email address.  
 
-/forgot(PUT)
+users/forgot(PUT)
 -------------
 User forget his/her password.  
 **Content-Type:** "application/json"   
@@ -109,30 +109,21 @@ User forget his/her password.
 	}
 **Tips:** send an email with a random generated temporary password to the email address provided.  
 
-/checkidentity(GET)
+users/checkidentity(GET)
 -------
-Check if the user is a guardian or trainee
-
-/gettrainees(GET)
--------
-Guardian find trainees
-
-**HttpHeader:** "authorization": token   
+Check if the user is a guardian or trainee  
 **Content-Type:** "application/json"   
-**Request Body:** *null*    
-**Response Body:** 
+**HttpHeader:** "authorization": token  
+**Request Body:** *null*  
+**Response Body:**  
 
 	response:
 	{
-		"traineesList": 
-		{
-			"trainee1@gmail.com",
-			"trainee2@gmail.com"
-		}
+		"statusMsg": "..."
 	}
-**Tips:** Call this api when a guardian user login, return the list of trainees the user is connected to. If no trainee is connected, an empty traineesList will be returned.  
+**Tips:** send an email with a random generated temporary password to the email address provided.  
 
-/logout(DELETE)
+users/logout(DELETE)
 -------
 User logout.  
 
@@ -148,10 +139,7 @@ User logout.
 **Tips:** App will send you the email in request.body so that server can delete its token. Or, you can just check the token. It's up to you. **However**, if the network is not working right now, app will STILL log out, which means you might not know when the user did log out. But it's not a problem. When this user log in the next time, you should give him another token and replace the previous one.
 
  
-
-
-
-/profile(PUT)
+users/profile(PUT)
 --------
 Update one user's profile excluding the email.  
  
@@ -177,7 +165,7 @@ Update one user's profile excluding the email.
 **Tips:** Only the following fields can be changed through this method: firstName, lastName, gender, birthday, phone, other. Password has to be changed in forget password. Email cannot be changed once register is finished.  
 
 
-/profile(GET)
+users/profile(GET)
 -------------
 Fetch one user's profile including avatar.  
 
@@ -198,7 +186,7 @@ Fetch one user's profile including avatar.
 		"statusMsg": "..."
 	  }
 
-/login (POST)
+users/login (POST)
 ------------
 User log in. Return token.
       
@@ -219,7 +207,7 @@ User log in. Return token.
 **Tips:** The user will get a token the first time it logs in. When the user reopen the app, the token will be validated first. If it's still valid, the user will be immediately logged in, otherwise, the user will be asked to enter login info again. 
 
 
-/signup(POST)
+users/signup(POST)
 -------------
   
 **Content-Type:** "application/json"  
@@ -243,10 +231,10 @@ User log in. Return token.
 	{
 		"statusMsg": "..."
 	}
-**Tips:** Avatar, gender, other are not required. Other fields are required.Other information cannot exceed 150 characters.  
+**Tips:** Avatar, gender, other are not required. Other fields are required.Other information cannot exceed 150 characters. This api will send the acivate email to the user provided.  
 
 
-/avatar(POST)
+users/avatar(POST)
 ------------
 Update one user's avatar.  
   
@@ -267,7 +255,7 @@ Update one user's avatar.
 **Tips:** The server will receive binary data and upload the picture to s3 storage.
 
 
-/avatar(GET)
+users/avatar(GET)
 ------------
 Fetch one's avatar.  
 **HttpHeader:** "authorization": token  
@@ -282,7 +270,7 @@ Fetch one's avatar.
 	}
 
 
-/quicklogin(POST)
+users/quicklogin(POST)
 ------------
 renew the token for the user  
 **HttpHeader:** "authorization": token  
@@ -318,9 +306,9 @@ resend the activation email
 **Tips:** This api can only be called when register
 
 
-user/verify/:token(GET)
+user/verify/:token(PUT)
 ------------
-activate the user account  
+activate the user account using the link sent by mail  
 **Request Parameter:** token  
 **Response Body:**  
 
@@ -346,6 +334,26 @@ Guardian add one of the trainee to their relationship
 		"statusMsg": "..."
 	}
 **Tips:** This api can only be called when the user is a guardian. A guardian can only add one trainee once a time, require token  
+
+users/guardians/trainees(GET)
+-------
+Guardian find trainees
+
+**HttpHeader:** "authorization": token   
+**Content-Type:** "application/json"   
+**Request Body:** *null*    
+**Response Body:** 
+
+	response:
+	{
+		"traineesList": 
+		{
+			"trainee1@gmail.com",
+			"trainee2@gmail.com"
+		}
+	}
+**Tips:** Call this api when a guardian user login, return the list of trainees the user is connected to. If no trainee is connected, an empty traineesList will be returned.  
+
 
 **Requirements of data:**
 =========================
