@@ -16,6 +16,7 @@ Add the 'quick login' api
 Important: prepend 'JWT ' to the jwt token  
 Add 'users' to all the router that is ralated to user  
 Add the 'add relationship' api  
+Change the method of 'verify/:token' from put to get
 
 users/password(PUT)
 -------------
@@ -306,7 +307,7 @@ resend the activation email
 **Tips:** This api can only be called when register
 
 
-user/verify/:token(PUT)
+user/verify/:token(GET)
 ------------
 activate the user account using the link sent by mail  
 **Request Parameter:** token  
