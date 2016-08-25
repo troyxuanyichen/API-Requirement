@@ -14,6 +14,9 @@ Post avatar will return the url
 Add new api 'fast delete' for debug use only  
 Add the 'quick login' api  
 Important: prepend 'JWT ' to the jwt token  
+Add 'user' to all the router that is ralated to user  
+Add the 'add relationship' api  
+
 /password(PUT)
 -------------
 To change the user's password.
@@ -297,7 +300,7 @@ renew the token for the user
 	}
 **Tips:** Require token and re-sign a new token
 
-/resendemail(GET)
+user/resendemail(GET)
 ------------
 resend the activation email  
 **HttpHeader:** "authorization": token  
@@ -315,7 +318,7 @@ resend the activation email
 **Tips:** This api can only be called when register
 
 
-/verify/:token(GET)
+user/verify/:token(GET)
 ------------
 activate the user account  
 **Request Parameter:** token  
@@ -326,6 +329,23 @@ activate the user account
 		"statusMsg": "..."
 	}
 **Tips:** Require token and re-sign a new token
+
+user/addrelationship(POST)
+------------
+Guardian add one of the trainee to their relationship  
+**HttpHeader:** "authorization": token  
+**Request Body:**
+
+	{
+		"traineeEmail": "troychen3@bu.edu"
+	}
+**Response Body:**
+
+	response:
+	{
+		"statusMsg": "..."
+	}
+**Tips:** This api can only be called when the user is a guardian. A guardian can only add one trainee once a time, require token  
 
 **Requirements of data:**
 =========================
