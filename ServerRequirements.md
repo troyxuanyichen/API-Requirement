@@ -19,6 +19,7 @@ Add the 'add relationship' api
 Change the method of 'verify/:token' from put to get  
 Change the method and url of resend email  
 Add 'check identity' api  
+Add relationship now requires trainee password  
 
 users/password(PUT)
 -------------
@@ -329,7 +330,8 @@ Guardian add one of the trainee to their relationship
 **Request Body:**
 
 	{
-		"traineeEmail": "troychen3@bu.edu"
+		"traineeEmail": "troychen3@bu.edu",
+		"traineePassword": "qwedfghjk43211"
 	}
 **Response Body:**
 
