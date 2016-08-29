@@ -16,7 +16,9 @@ Add the 'quick login' api
 Important: prepend 'JWT ' to the jwt token  
 Add 'users' to all the router that is ralated to user  
 Add the 'add relationship' api  
-Change the method of 'verify/:token' from put to get
+Change the method of 'verify/:token' from put to get  
+Change the method and url of resend email  
+Add 'check identity' api  
 
 users/password(PUT)
 -------------
@@ -122,7 +124,7 @@ Check if the user is a guardian or trainee
 	{
 		"statusMsg": "..."
 	}
-**Tips:** send an email with a random generated temporary password to the email address provided.  
+**Tips:** send an email with a random generated temporary password to the email address provided. If statusMsg = 1, the user is a guardian; if statusMsg = 0, the user is a trainee.  
 
 users/logout(DELETE)
 -------
@@ -289,7 +291,7 @@ renew the token for the user
 	}
 **Tips:** Require token and re-sign a new token
 
-user/resendemail(GET)
+user/resend(POST)
 ------------
 resend the activation email  
 **HttpHeader:** "authorization": token  
