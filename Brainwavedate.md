@@ -8,16 +8,21 @@ Maximum 40 sessions.
 -------------
 **Brainwave difinition:**
 
-Attention level: 1 int per second.  
-SMR : 
+Datapackage: 
 
-	{
-      "SMR0": DATATYPE.[DOUBLE],
-      "SMR1: DATATYPE.[DOUBLE],
-      "SMR2: DATATYPE.[DOUBLE]
-    }
+	[
+	Attention level: 1 int per second.  
+	SMR : 
+
+		{
+      	"SMR0": DATATYPE.[DOUBLE],
+      	"SMR1: DATATYPE.[DOUBLE],
+      	"SMR2: DATATYPE.[DOUBLE]
+    	}
     
-Beta: 1 double per 1/2 second.  
-Theta: 1 double per 1/2 second.  
-Session number: 1 int, indent every session.  
+	Beta: 1 double per 1/2 second.  
+	Theta: 1 double per 1/2 second.  
+	Session number: 1 int, indent every session.
+	]
+	
 Time: timestamp.  
