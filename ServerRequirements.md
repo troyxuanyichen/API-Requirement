@@ -225,7 +225,8 @@ users/signup(POST)
 		"birthday": "2014/11/22",
 		"avatar": "Binary675tuygjhbkyt76dtjcghvgt76riftyvhjbhiyotfuvhb",
 		"phone": "6178169142",
-		"other": "OtherInfo"
+		"other": "OtherInfo",
+		"isGuardian": 0
 	}
 
  **Response Body:**
@@ -234,7 +235,7 @@ users/signup(POST)
 	{
 		"statusMsg": "..."
 	}
-**Tips:** Avatar, gender, other are not required. Other fields are required.Other information cannot exceed 150 characters. This api will send the acivate email to the user provided.  
+**Tips:** Avatar, gender, other are not required. Other fields are required.Other information cannot exceed 150 characters. This api will send the acivate email to the user provided. Default value of 'isGuardian' is 0 which means the user is not a guardian.    
 
 
 users/avatar(POST)
