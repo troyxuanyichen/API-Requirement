@@ -3,7 +3,8 @@
 Note:  
 One user may take 30 minutes to finish a session.  
 Session is not bound to game.  
-Maximum 40 sessions. 
+Maximum 40 sessions.  
+Data package will be sent every minute.  
 
 -------------
 **Brainwave difinition:**
