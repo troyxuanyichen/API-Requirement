@@ -1,6 +1,8 @@
 **Brainwave Data**
 ========================
 Note:  
+Name of database: Brainwavedata  
+Name of collection: brainwave  
 One user may take 30 minutes to finish a session.  
 Session is not bound to game.  
 Maximum 40 sessions.  
