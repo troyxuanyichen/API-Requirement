@@ -7,6 +7,7 @@ One user may take 30 minutes to finish a session.
 Session is not bound to game.  
 Maximum 40 sessions.  
 Data package will be sent every minute.  
+Format json keys  
 
 -------------
 **Brainwave difinition:**
@@ -14,7 +15,7 @@ Data package will be sent every minute.
 Datapackage: 
 
 	[
-	Attention level: 1 int per second.  
+	attentionLevel: 1 int per second.  
 	SMR : 
 
 		{
@@ -23,9 +24,9 @@ Datapackage:
       	"SMR2: DATATYPE.[DOUBLE]
     	}
     
-	Beta: 1 double per 1/2 second.  
-	Theta: 1 double per 1/2 second.  
-	Session number: 1 int, indent every session.
+	beta: 1 double per 1/2 second.  
+	theta: 1 double per 1/2 second.  
+	sessionNumber: 1 int, indent every session.
 	]
 	
-Time: timestamp.  
+time: timestamp.  
